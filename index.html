@@ -4,26 +4,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CGD 210 — Rocket Tech</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background: radial-gradient(circle at center, #0a0f24, #000);
+            color: #00eaff;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animated Cyber Grid */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(#0ff2, #0ff2),
+                linear-gradient(90deg, #0ff2, #0ff2);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(black 60%, transparent);
+            animation: gridMove 12s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes gridMove {
+            from { transform: translateY(0); }
+            to { transform: translateY(-40px); }
+        }
+
+        header { text-align: center; padding: 80px 0; }
+
+        h1 {
+            font-size: 60px;
+            text-shadow: 0 0 20px #00eaff, 0 0 40px #0ff;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-top: 10px;
+            color: #88f3ff;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding-top: 30px;
+        }
+
+        nav a {
+            font-size: 24px;
+            padding: 15px 35px;
+            border: 2px solid #00eaff;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #00eaff;
+            transition: 0.3s;
+            text-shadow: 0 0 8px #00eaff;
+        }
+
+        nav a:hover {
+            background: #00eaff;
+            color: black;
+            box-shadow: 0 0 20px #00eaff;
+        }
+
+        /* Rocket */
+        .rocket {
+            position: fixed;
+            font-size: 48px;
+            pointer-events: none;
+            opacity: 0;
+            transform-origin: center;
+            z-index: 99999;
+        }
+
+        /* Flame under rocket */
+        .flame {
+            position: fixed;
+            font-size: 22px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 99998;
+        }
+
+        /* Sparks particles */
+        .spark {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #ffae00;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.8;
+            animation: sparkFly 0.6s linear forwards;
+            z-index: 99997;
+        }
+
+        @keyframes rocketFly {
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-20px, -900px) scale(1.4) rotate(-25deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes flameFly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(0, 60px) scale(1.6); opacity: 0; }
+        }
+
+        @keyframes sparkFly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% {
+                transform: translate(
+                    calc(-50px + 100px * random()),
+                    calc(100px + 150px * random())
+                ) scale(0.2);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
+
     <header>
-        <div class="header-top">
-            <h1>CGD 210
-                165</h1>
-            <h2>November 2025</h2>
-        </div>
+        <h1>CGD 210</h1>
+        <h2>November 2025</h2>
+
         <nav>
             <ul>
-                <li><a href="Assignment_No.1">
-                        Assignment 1</a> </li>
-                <li><a href="Assignment_No.2">
-                        Assignment 2</a></li>
-                <li><a href="Assignment_No.3">
-                        Assignment 3</a></li>
+                <li><a href="Assignment_No.1" class="rocketLink" data-rocket="🚀">Assignment 1</a></li>
+                <li><a href="Assignment_No.2" class="rocketLink" data-rocket="🛸">Assignment 2</a></li>
+                <li><a href="Assignment_No.3" class="rocketLink" data-rocket="🚁">Assignment 3</a></li>
             </ul>
         </nav>
-</body>
+    </header>
 
+    <!-- Rocket -->
+    <div id="rocket" class="rocket">🚀</div>
+    <div id="flame" class="flame">🔥</div>
+
+    <!-- Loud rocket sound -->
+    <audio id="launchSound">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_690ee290f6.mp3?filename=rocket-launch-6940.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const rocket = document.getElementById("rocket");
+        const flame = document.getElementById("flame");
+        const sound = document.getElementById("launchSound");
+        const links = document.querySelectorAll(".rocketLink");
+
+        function createSpark(x, y) {
+            const spark = document.createElement("div");
+            spark.classList.add("spark");
+            spark.style.left = x + "px";
+            spark.style.top = y + "px";
+            document.body.appendChild(spark);
+            setTimeout(() => spark.remove(), 600);
+        }
+
+        links.forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                // Change rocket emoji depending on link
+                rocket.innerHTML = this.dataset.rocket;
+
+                const rect = this.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top;
+
+                // Rocket start position
+                rocket.style.left = x + "px";
+                rocket.style.top = y + "px";
+
+                // Flame start position
+                flame.style.left = x + "px";
+                flame.style.top = (y + 40) + "px";
+
+                // Show flame + rocket
+                rocket.style.opacity = 1;
+                flame.style.opacity = 1;
+
+                // Animation
+                rocket.style.animation = "rocketFly 1s ease-out";
+                flame.style.animation = "flameFly 0.5s ease-out";
+
+                // Sparks burst
+                for (let i = 0; i < 12; i++) {
+                    createSpark(x, y + 30);
+                }
+
+                // Sound
+                sound.currentTime = 0;
+                sound.play();
+
+                setTimeout(() => {
+                    window.location.href = this.getAttribute("href");
+                }, 900);
+
+                setTimeout(() => {
+                    rocket.style.animation = "";
+                    flame.style.animation = "";
+                    rocket.style.opacity = 0;
+                    flame.style.opacity = 0;
+                }, 1200);
+            });
+        });
+    </script>
+
+</body>
 </html>
