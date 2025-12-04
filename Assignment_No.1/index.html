@@ -2,65 +2,303 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuzzOff - Smart Mosquito Killer</title>
-    <link rel="stylesheet" href="css/styles.css" />
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
+    <style>
+        /* ===== RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #eee;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #0a0a0a, #111111, #0f0f0f, #1a1a1a);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== NAVBAR ===== */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: #eee;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ffcc;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .hero-image-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0, 255, 204, 0.2);
+            max-width: 900px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+            cursor: pointer;
+            border-radius: 14px;
+        }
+
+        .hero-image:hover {
+            transform: scale(1.03);
+        }
+
+        .hero-text {
+            margin-top: 2rem;
+        }
+
+        .hero-text h2 {
+            font-size: 2.7rem;
+            font-weight: 600;
+            color: #00ffcc;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .hero-text p {
+            font-size: 1.15rem;
+            margin: 1rem 0 2rem;
+            color: #ccc;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #00ffcc;
+            color: #000;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 255, 204, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #00e6b8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 255, 204, 0.5);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(15, 15, 15, 0.9);
+            margin: 2rem auto;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 1100px;
+            box-shadow: 0 4px 20px rgba(0, 255, 204, 0.1);
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #00ffcc;
+            text-shadow: 0 0 8px #00ffcc;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* ===== FEATURE CARDS AS LINKS ===== */
+        .features-grid a.feature {
+            display: block;
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            text-decoration: none;
+            cursor: pointer;
+            color: #eee;
+        }
+
+        .features-grid a.feature:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(0, 255, 204, 0.7);
+            background: #111111;
+        }
+
+        .feature img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 1rem;
+            filter: drop-shadow(0 0 6px #00ffccaa);
+            transition: transform 0.3s ease;
+        }
+
+        .feature img:hover {
+            transform: scale(1.1);
+        }
+
+        .feature h3 {
+            color: #00ffcc;
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature p {
+            color: #ccc;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #111;
+            color: #00ffcc;
+            margin-top: 2rem;
+            text-shadow: 0 0 8px #00ffcc;
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- NAVBAR -->
     <header>
-        <nav>
-            <h1>BuzzOff</h1>
-            <ul>
+        <div class="navbar">
+            <div class="logo">BuzzOff</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#back-us">Back Us</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-        </nav>
-        <div class="hero">
-            <h2>Say Goodbye to Mosquitos</h2>
-            <p>The world's smartest, eco-friendly mosquito eliminator. Launching soon on Kickstarter.</p>
-            <a href="#back-us" class="cta-button">Notify Me</a>
         </div>
     </header>
 
-    <section id="features">
-        <h2>Why BuzzOff?</h2>
-        <div class="features-grid">
-            <div class="feature">
-                <h3>Smart Detection</h3>
-                <p>Uses AI to detect and target mosquitos with precision.</p>
-            </div>
-            <div class="feature">
-                <h3>Eco-Friendly</h3>
-                <p>No chemicals, no harm to pets or humans.</p>
-            </div>
-            <div class="feature">
-                <h3>Silent Operation</h3>
-                <p>Whisper-quiet technology for peaceful nights.</p>
-            </div>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-image-wrapper">
+            <img src="image/Image1.jpg" alt="Smart Mosquito Killer Artwork" class="hero-image">
+        </div>
+        <div class="hero-text">
+            <h2>Smart Mosquito Killer</h2>
+            <p>Keep your home mosquito-free with our advanced, eco-friendly device.</p>
+            <a href="https://example.com/buy" class="cta-button" id="buyButton">Buy Now</a>
         </div>
     </section>
 
-    <section id="how-it-works">
-        <h2>How It Works</h2>
-        <p>BuzzOff uses motion sensors and thermal imaging to detect mosquitos, then safely eliminates them using a
-            targeted electric pulse. It's rechargeable, portable, and perfect for indoor or outdoor use.</p>
+    <!-- FEATURES SECTION -->
+    <section class="section" id="features">
+        <h2>Features</h2>
+        <div class="features-grid">
+            <a href="https://www.foxnews.com/tech/ai-technology-can-help-you-win-battle-over-mosquitoes"
+                class="feature">
+                <img src="image/Image2.jpg" alt="Eco-Friendly Icon">
+                <h3>Eco-Friendly</h3>888
+                <p>Safe for children and pets, no harmful chemicals.</p>
+            </a>
+
+            <a href="https://www.foxnews.com/tech/ai-technology-can-help-you-win-battle-over-mosquitoes"
+                class="feature">
+                <img src="https://img.icons8.com/fluency/48/00ffcc/mosquito.png" alt="Smart Sensor Icon">
+                <h3>Smart Sensor</h3>
+                <p>Automatically detects mosquitoes and activates the device.</p>
+            </a>
+
+            <a href="https://www.foxnews.com/tech/ai-technology-can-help-you-win-battle-over-mosquitoes"
+                class="feature">
+                <img src="https://img.icons8.com/fluency/48/00ffcc/lightning-bolt.png" alt="Energy Efficient Icon">
+                <h3>Energy Efficient</h3>
+                <p>Consumes very little electricity, saving you money.</p>
+            </a>
+        </div>
     </section>
 
-    <section id="back-us">
-        <h2>Back Us on Kickstarter</h2>
-        <p>Join our mission to make mosquito bites a thing of the past. Be the first to get BuzzOff at an exclusive
-            early-bird price.</p>
-        <a href="#" class="cta-button">Support the Campaign</a>
-    </section>
-
-    <footer>
+    <!-- FOOTER -->
+    <footer id="contact">
         <p>&copy; 2025 BuzzOff. All rights reserved.</p>
+        <p>&copy; CAll 818-345 0030 or 818-345 0040.</p>
     </footer>
+
+    <!-- SOUND EFFECT -->
+    <audio id="clickSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
+    <script>
+        const buyButton = document.getElementById('buyButton');
+        const clickSound = document.getElementById('clickSound');
+        buyButton.addEventListener('click', () => {
+            clickSound.play();
+        });
+    </script>
+
 </body>
 
 </html>
