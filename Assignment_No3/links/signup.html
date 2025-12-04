@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sign up — BrightLaunch</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e0f7fa;
+  --card:rgba(255,255,255,0.85);
+  --accent1:#4ade80;
+  --accent2:#3b82f6;
+  --muted:#1e3a8a;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;
+  background:var(--bg);
+  color:var(--muted);
+  min-height:100vh;
+}
+.container{max-width:1100px;margin:36px auto;padding:0 20px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;gap:12px;align-items:center}
+.logo .mark{
+  width:46px;height:46px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;color:white;
+}
+nav a{
+  color:var(--muted);margin-left:12px;text-decoration:none;font-weight:600;transition:color 0.3s;
+}
+nav a:hover{color:var(--accent2);}
+nav a.active{color:var(--accent1);}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:22px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top:12px;
+}
+.card:hover{ transform: translateY(-8px); box-shadow:0 16px 60px rgba(0,0,0,0.12); }
+
+.btn{
+  padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-primary{
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:white;
+}
+.btn-primary:hover{ transform:scale(1.05); box-shadow:0 6px 18px rgba(74,222,128,0.6),0 6px 18px rgba(59,130,246,0.6);}
+.btn-ghost{
+  background:transparent;border:1px solid rgba(30,58,138,0.1);color:var(--muted);
+}
+.btn-ghost:hover{ background: rgba(30,58,138,0.05); }
+
+form input, form select, form textarea{
+  width:100%;padding:10px;border-radius:10px;border:1px solid rgba(30,58,138,0.2);
+  background:transparent;color:var(--muted);margin-top:8px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <div class="mark">BL</div>
+      <div>
+        <div style="font-weight:800">BrightLaunch</div>
+        <small class="hint">Sign up</small>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="product.html">Product</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main style="margin-top:20px">
+    <div class="card">
+      <h1 style="margin:0">Create your account</h1>
+      <p class="hint">Get started with the Starter plan for free — no card required.</p>
+      <form onsubmit="event.preventDefault(); showToast('Account created! (demo)'); setTimeout(()=>location.href='index.html',900)" style="margin-top:12px;display:grid;gap:10px">
+        <label>Email<input name="email" placeholder="you@company.com" required></label>
+        <label>Password<input type="password" name="password" placeholder="Choose a password" required></label>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-primary">Create account</button>
+          <a class="btn btn-ghost" href="pricing.html">Compare plans</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="yrs2"></span> BrightLaunch — signup</footer>
+</div>
+
+<script>
+function showToast(msg,timeout=1600){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.style.opacity=0,timeout-400);
+  setTimeout(()=>t.remove(),timeout);
+}
+function navTo(path){location.href=path}
+document.getElementById('yrs2').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
